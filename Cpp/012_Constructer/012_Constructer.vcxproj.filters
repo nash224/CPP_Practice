@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="006_Refference.cpp">
+    <ClCompile Include="012_Constructer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
