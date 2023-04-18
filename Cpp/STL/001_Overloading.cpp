@@ -71,6 +71,16 @@ public:
 
     }
 
+    bool operator==(const PointOperator& _Other) const
+    {
+        return X == _Other.X && Y == _Other.Y ? true : false;
+    }
+
+    bool operator!=(const PointOperator& _Other) const
+    {
+        return !(*this == _Other);
+    }
+
     // 첫번째 const는 인자값을 변경하지 않는다는 것이고,
     // 두번째 const는 this의 값을 변경하지 않는다는 것이다.
 
@@ -79,6 +89,15 @@ public:
         PointOperator arg;
         arg.X = this->X + _arg.X;
         arg.Y = this->Y + _arg.Y;
+
+        return arg;
+    }
+
+    PointOperator operator-(const PointOperator& _arg) const
+    {
+        PointOperator arg;
+        arg.X = this->X - _arg.X;
+        arg.Y = this->Y - _arg.Y;
 
         return arg;
     }
@@ -104,7 +123,22 @@ public:
         return temp;
     }
 
+    PointOperator& operator--()
+    {
+        --X;
+        --Y;
 
+        return *this;
+    }
+
+    PointOperator& operator--(int)
+    {
+        PointOperator Decrease(*this);
+        --X;
+        --Y;
+
+        return Decrease;
+    }
 
     // const 멤버 함수는 멤버 함수 내에서 객체의 멤버 변수를 변경하지 않는다는 것을 보장하는 함수이다.
     // const 객체는 const 멤버 함수만 호출할 수 있다.
@@ -162,13 +196,24 @@ int main()
     }
 
     {
-        PointOperator p1(7, 2);
+        PointOperator p1(3, 2);
         PointOperator p2(3, 1);
         PointOperator p3;
+        PointOperator p4(3, 1);
+        PointOperator Minus;
 
         // p3 = p1.operator+(p2); 가 실행되고, p1은 this의 객체이고, p2는 _arg의 객체이다
         p3 = p1 + p2;
+        Minus = p1 - p2;
 
+        bool boolean1 = p1 == p2;
+        bool boolean2 = p4 == p2;
+
+        bool boolean3 = p1 != p2;
+        bool booleanTest = p1.operator!=(p2);
+        bool boolean4 = p4 != p2;
+
+        int a = 0;
     }
 
     {
@@ -195,13 +240,13 @@ int main()
         //TestPrefix.operator++();
         //++TestPrefix;
 
-        Result = TestPrefix.operator++();
-        Result = ++TestPrefix;
+        Result = TestPrefix.operator--();
+        Result = --TestPrefix;
         TestPrefix.Print();
         Result.Print();
 
-        Result = TestPostFix.operator++(0);
-        Result = TestPostFix++;
+        Result = TestPostFix.operator--(0);
+        Result = TestPostFix--;
         TestPostFix.Print();
         Result.Print();
 
