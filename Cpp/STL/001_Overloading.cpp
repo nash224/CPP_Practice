@@ -54,6 +54,10 @@ public:
 
 class PointOperator
 {
+    // 클래스 Point에서 클래스 PointOperator의 멤버 변수를 접근 제한없이 사용할 수 있게 한다.
+    friend Point;
+
+
 private:
     int X = 0;
     int Y = 0;
@@ -93,20 +97,26 @@ public:
         return arg;
     }
 
-    PointOperator operator-(const PointOperator& _arg) const
-    {
-        PointOperator arg;
-        arg.X = this->X - _arg.X;
-        arg.Y = this->Y - _arg.Y;
+    //PointOperator operator-(const PointOperator& _arg) const
+    //{
+    //    PointOperator arg;
+    //    arg.X = this->X - _arg.X;
+    //    arg.Y = this->Y - _arg.Y;
 
-        return arg;
-    }
+    //    return arg;
+    //}
+
 
     //void operator++()
     //{
     //    ++X;
     //    ++Y;
     //}
+
+    // 전역함수는 외부에 선언해야하는데, 프랜드를 사용하면 클래스 내부에 선언해야 한다.
+    // 프랜드 함수의 장점은 해당 함수의 멤버 변수를 접근 제한 없이 사용할 수 있다.
+
+    friend PointOperator operator-(const PointOperator& _argl, const PointOperator& _argr);
 
     PointOperator& operator++()
     {
@@ -161,6 +171,23 @@ public:
     void SetX(const int _X) // 비 const 함수: 멤버 변경
     {
         X = _X;
+    }
+
+};
+
+
+
+class InstanceA
+{
+private:
+    int x = 0;
+    int y = 0;
+
+public:
+    InstanceA(int _X, int _Y)
+        : x(_X), y(_Y)
+    {
+
     }
 
 };
@@ -251,4 +278,19 @@ int main()
         Result.Print();
 
     }
+
+    {
+        PointOperator P(2, 3);
+        PointOperator NewA(3,4);
+        PointOperator NewValue;
+
+        NewValue = NewA - P;
+        operator-(NewA, P);
+        NewValue.Print();
+    }
+}
+
+PointOperator operator-(const PointOperator& _ArgL, const PointOperator& _ArgR)
+{
+    return PointOperator(_ArgL.X - _ArgR.X, _ArgL.Y - _ArgR.Y);
 }
